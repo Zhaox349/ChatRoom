@@ -1,0 +1,295 @@
+<html>
+  <head>
+    <title>chat</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <style>
+      @font-face {
+        font-family: FixedsysExcelsior301Regular;
+        src: url("font.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+    </style>
+    <div class="cc-1">
+      <div
+        id="window-1"
+        class="window-1"
+        style="transform: translate3d(40px, 40px, 0)"
+      >
+        <div class="cc-3">
+          <div class="cc-4">
+            <div class="cc-5">
+              <div class="cc-6" id="titlebar-1">Bulletin Board</div>
+              <div class="cc-7">x</div>
+            </div>
+
+            <div style="text-align: left; padding: 0 20px 0">
+              <h2>Perfect U</h2>
+              <p>
+                We invite participants to engage in an asynchronous chat room inspired by the psychological depths of Satoshi Kon's masterpieces. 
+                <br>
+                <br>
+                Have you ever experienced the multiple personalities?
+                Have you ever struggled with two thoughts in mind?
+                Have you ever heard other inner voices talking to yourself?
+                Have you ever dreamed of something that happen in real life?
+                <br>
+                <br>
+                Fell free to leave a note, share your interpretations, insights, dreams, and thoughts prompted by the film or from your own experiences. The chat room serves as a platform for introspection, inviting viewers to question their own perceptions of self and society.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="window-2"
+        id="window-2"
+        style="transform: translate3d(500px, 270px, 0)"
+      >
+        <div class="cc-1608">
+          <div class="cc-1609">
+            <div class="cc-1610">
+              <div class="cc-1611">
+                <div class="cc-1612">
+                  <span class="cc-1613">Chat</span>
+                  <form class="cc-1614">
+                    <input
+                      type="text"
+                      id="name"
+                      placeholder="Enter Name Here"
+                      maxlength="16"
+                      value=""
+                      class="cc-1615"
+                    />
+                    <!-- <input  value="Login"  class="cc-1616"> -->
+                    <button
+                      class="cc-1616"
+                      type="button"
+                      id="vv"
+                      onclick="login()"
+                    >
+                      Login
+                    </button>
+                  </form>
+                  <div style="flex: 1" id="titlebar-2"></div>
+                </div>
+              </div>
+              <p class="cc-1618">x</p>
+            </div>
+            <div class="cc-1619">
+              <div class="cc-1620">
+                <div class="cc-1621">
+                  <div class="cc-1622">
+                    <!-- <div class="cc-1623"><span class="cc-1624">[9:00]</span><span
+                      class="cc-1625">&lt;</span><span class="cc-1626">ONEWINGEDANGEL</span><span
+                      class="cc-1627">&gt;</span><span class="cc-1628">sick</span></div> -->
+
+                    <div id="userInfo"></div>
+                  </div>
+                  <div class="cc-4632">
+                    <form class="cc-4633">
+                      <input
+                        type="text"
+                        disabled=""
+                        id="content"
+                        maxlength="140"
+                        placeholder="content"
+                        value=""
+                        class="cc-4634"
+                      /><button onclick="saveUserInfo()" class="cc-4635">
+                        SEND
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let currentWindow;
+    const window1 = document.getElementById("window-1");
+    const titlebar1 = document.getElementById("titlebar-1");
+
+    const window2 = document.getElementById("window-2");
+    const titlebar2 = document.getElementById("titlebar-2");
+
+    let currentX = 0,
+      currentY = 0,
+      initialX = 0,
+      initialY = 0,
+      xOffset = 0,
+      yOffset = 0;
+
+    titlebar1.addEventListener("mousedown", dragStart);
+    window1.addEventListener("mouseup", dragEnd);
+
+    titlebar2.addEventListener("mousedown", dragStart);
+    window2.addEventListener("mouseup", dragEnd);
+
+    function onResize(e) {
+      const h = window.innerHeight;
+      const w = window.innerWidth;
+      if (w < 1000) {
+        const numbers = window2.style.transform
+          .replace(/translate3d\(|px|\)/gi, "")
+          .replaceAll(" ", "");
+        const px = numbers.split(",");
+        window2.style.transform = `translate3d(${500 + (w - 1000)}px, ${
+          px[1]
+        }px, 0)`;
+      }
+    }
+
+    document.body.onload = onResize;
+    window.onresize = onResize;
+
+    function dragStart(e) {
+      if (e.target === titlebar1) {
+        currentWindow = window1;
+        const numbers = currentWindow.style.transform
+          .replace(/translate3d\(|px|\)/gi, "")
+          .replaceAll(" ", "");
+        const px = numbers.split(",");
+        initialX = e.clientX - Number(px[0]);
+        initialY = e.clientY - Number(px[1]);
+        currentWindow.addEventListener("mousemove", drag);
+        window1.style.zIndex = 999999;
+        window2.style.zIndex = 10;
+      }
+
+      if (e.target === titlebar2) {
+        currentWindow = window2;
+        const numbers = currentWindow.style.transform
+          .replace(/translate3d\(|px|\)/gi, "")
+          .replaceAll(" ", "");
+        const px = numbers.split(",");
+        initialX = e.clientX - Number(px[0]);
+        initialY = e.clientY - Number(px[1]);
+        currentWindow.addEventListener("mousemove", drag);
+        window2.style.zIndex = 999999;
+        window1.style.zIndex = 10;
+      }
+    }
+
+    function dragEnd(e) {
+      initialX = currentX;
+      initialY = currentY;
+
+      if (currentWindow) {
+        currentWindow.removeEventListener("mousemove", drag);
+      }
+    }
+
+    function drag(e) {
+      e.preventDefault();
+
+      currentX = e.clientX - initialX;
+      currentY = e.clientY - initialY;
+
+      if (currentX <= 0) {
+        currentX = 0;
+      }
+      if (currentY <= 0) {
+        currentY = 0;
+      }
+
+      if (currentX + currentWindow.offsetWidth >= window.innerWidth) {
+        return;
+      }
+      if (currentY + currentWindow.offsetHeight >= window.innerHeight) {
+        return;
+      }
+
+      xOffset = currentX;
+      yOffset = currentY;
+
+      currentWindow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+    }
+
+    function login() {
+      if (document.getElementById("vv").innerHTML == "Login") {
+        var username = document.getElementById("name").value;
+
+        if (!username) {
+          alert("Please Enter Your Name");
+          return;
+        } else {
+          document.getElementById("content").disabled = false;
+          document.getElementById("name").disabled = true;
+          document.getElementById("vv").innerHTML = "Logout";
+        }
+      } else {
+        document.getElementById("name").disabled = false;
+        document.getElementById("name").value = "";
+        document.getElementById("vv").innerHTML = "Login";
+        document.getElementById("content").disabled = true;
+      }
+    }
+    function saveUserInfo() {
+      var username = document.getElementById("name").value;
+
+      if (!username) {
+        alert("Please Enter Your Name");
+        return;
+      }
+      var content = document.getElementById("content").value;
+      var now = new Date();
+      var hours = now.getHours();
+      var minutes = now.getMinutes();
+      var seconds = now.getSeconds();
+      var currentTime = hours + ":" + minutes + ":" + seconds;
+
+      var userInfo = {
+        username: username,
+        content: content,
+        time: currentTime,
+      };
+
+      // 从localStorage中获取已有的用户信息
+      var storedData =
+        JSON.parse(localStorage.getItem("userInformation")) || [];
+
+      // 将新的用户信息添加到数组中
+      storedData.push(userInfo);
+
+      // 将更新后的用户信息存储回localStorage
+      localStorage.setItem("userInformation", JSON.stringify(storedData));
+
+      // 在页面上展示所有用户信息
+      displayUserInfo(true);
+    }
+
+    function displayUserInfo(e) {
+      var userInfoDiv = document.getElementById("userInfo");
+      userInfoDiv.innerHTML = "";
+
+      var storedData =
+        JSON.parse(localStorage.getItem("userInformation")) || [];
+
+      storedData.forEach(function (info) {
+        // var infoString = '['+info.time+']'+info.username+' - ' + info.content  + '<br>';
+        var infoString =
+          "<span>[" +
+          info.time +
+          ']</span> <span class="cc-1626">' +
+          info.username +
+          '</span>  <span class="time">' +
+          info.content +
+          "</span><br>";
+        userInfoDiv.innerHTML += infoString;
+      });
+      document.getElementById("content").value = "";
+      if (e) event.preventDefault();
+    }
+
+    // 页面加载时展示已存储的用户信息
+    displayUserInfo(false);
+  </script>
+</html>
