@@ -13,12 +13,15 @@
         font-style: normal;
       }
     </style>
+
+
     <div class="cc-1">
       <div
         id="window-1"
         class="window-1"
-        style="transform: translate3d(40px, 40px, 0)"
+        style="transform: translate3d(200px, 250px, 0)"
       >
+      
         <div class="cc-3">
           <div class="cc-4">
             <div class="cc-5">
@@ -27,7 +30,7 @@
             </div>
 
             <div style="text-align: left; padding: 0 20px 0">
-              <h2>Perfect U</h2>
+              <h2>Dissection</h2>
               <p>
                 We invite participants to engage in an asynchronous chat room inspired by the psychological depths of Satoshi Kon's masterpieces. 
                 <br>
@@ -47,7 +50,7 @@
       <div
         class="window-2"
         id="window-2"
-        style="transform: translate3d(500px, 270px, 0)"
+        style="transform: translate3d(700px, 350px, 0)"
       >
         <div class="cc-1608">
           <div class="cc-1609">
@@ -111,8 +114,99 @@
         </div>
       </div>
     </div>
+
+    <div class="overlay"></div>
+    <div class="upper-right"></div>
+    <div class="centered-image">
+      <img src="logo.png" alt="Centered Image">
+    <div id="photoGallery">
+    </div>
+
   </body>
   <script>
+    // Array of image URLs
+const images = [
+  'image1.jpg',
+  'image2.jpg',
+  'image3.jpg',
+  'image4.jpg',
+  'image5.jpg',
+  'image6.jpg',
+  'image7.jpg',
+  'image8.jpg',
+  'image9.jpg',
+  'image10.jpg',
+  'image11.jpg',
+  'image12.jpg',
+  'image13.jpg',
+  'image14.jpg',
+  // Add more image URLs here
+];
+
+// Function to create and position images with random sizes while preserving aspect ratios
+function createImages() {
+  const gallery = document.getElementById('photoGallery');
+  images.forEach((imageUrl, index) => {
+    const img = document.createElement('img');
+    img.src = imageUrl;
+    img.draggable = true;
+    img.id = `image${index}`; // Assign a unique id to each image
+
+    let width, height;
+    if (index === 0) {
+      // Set the size of the first image to be larger
+      width = Math.floor(Math.random() * 200) + 300; // Random width (between 300px and 500px)
+      height = Math.floor(Math.random() * 200) + 300; // Random height (between 300px and 500px)
+    } else {
+      // Set random size for other images
+      width = Math.floor(Math.random() * 400) + 300; // Random width (between 300px and 700px)
+      height = Math.floor(Math.random() * 400) + 300; // Random height (between 300px and 700px)
+    }
+
+    // Set width and height while preserving aspect ratio
+    img.style.width = `${width}px`;
+    img.style.height = 'auto';
+
+    img.style.left = `${Math.random() * 90}%`; // Random horizontal position
+    img.style.top = `${Math.random() * 90}%`; // Random vertical position
+
+    img.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', ''); // Required for drag and drop to work in Firefox
+      // Store the id of the dragged image
+      e.dataTransfer.setData('imageId', e.target.id);
+      // Store the initial mouse position relative to the image position
+      const offsetX = e.clientX - e.target.getBoundingClientRect().left;
+      const offsetY = e.clientY - e.target.getBoundingClientRect().top;
+      e.dataTransfer.setData('offsetX', offsetX);
+      e.dataTransfer.setData('offsetY', offsetY);
+    });
+    gallery.appendChild(img);
+  });
+
+  // Add event listener to the document for drag and drop functionality
+  document.addEventListener('dragover', (e) => {
+    e.preventDefault(); // Prevent default behavior
+  });
+
+  document.addEventListener('drop', (e) => {
+    e.preventDefault(); // Prevent default behavior
+    const imageId = e.dataTransfer.getData('imageId');
+    const offsetX = parseInt(e.dataTransfer.getData('offsetX'), 10);
+    const offsetY = parseInt(e.dataTransfer.getData('offsetY'), 10);
+    const draggedImage = document.getElementById(imageId);
+    // Calculate the new position of the dragged image
+    const newX = e.clientX - offsetX;
+    const newY = e.clientY - offsetY;
+    // Update the position of the dragged image
+    draggedImage.style.left = `${newX}px`;
+    draggedImage.style.top = `${newY}px`;
+  });
+}
+
+createImages();
+
+
+
     let currentWindow;
     const window1 = document.getElementById("window-1");
     const titlebar1 = document.getElementById("titlebar-1");

@@ -2,10 +2,63 @@ body {
   margin: 0;
   padding: 0;
   background: url(./background.png) no-repeat center center fixed;
-  -webkit-background-size: cover;
+  /* -webkit-background-size: cover;
   -moz-background-size: cover;
-  -o-background-size: cover;
+  -o-background-size: cover; */
   background-size: cover;
+  position: relative;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 264;
+  height: 345;
+  background-image: url('Tab.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 9999; 
+}
+
+.upper-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 96;
+  height: 288;
+  background-image: url('Bar.png');
+  background-repeat: no-repeat;
+  z-index: 9999;
+}
+
+.centered-image {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+}
+
+.centered-image img {
+  max-width: 50%;
+  max-height: 50%;
+}
+
+#photoGallery {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Prevent images from overflowing the gallery container */
+}
+
+#photoGallery img {
+  position: absolute;
+  user-select: none; /* Disable selection */
+  max-width: 200px; /* Set maximum width */
+  max-height: 200px; /* Set maximum height */
 }
 
 h2 {
@@ -33,6 +86,7 @@ p {
   width: 100%;
   height: 100%;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px 0px inset;
+  overflow: hidden;
 }
 
 .window-1 {
@@ -115,7 +169,7 @@ p {
   width: 25px;
   height: 25px;
   background: red;
-  border-color: rgb(235, 124, 126) rgb(178, 6, 16);
+  border-color: rgb(187, 189, 192) rgb(178, 6, 16);
   border-style: outset;
   border-width: 3px;
   font-family: FixedsysExcelsior301Regular;
@@ -126,7 +180,7 @@ p {
 }
 
 .cc-7:active {
-  border-color: rgb(235, 124, 126) rgb(178, 6, 16);
+  border-color: rgb(187, 189, 192) rgb(178, 6, 16);
   border-style: inset;
   border-width: 3px;
 }
@@ -288,7 +342,7 @@ p {
   width: 25px;
   height: 25px;
   background: red;
-  border-color: rgb(235, 124, 126) rgb(178, 6, 16);
+  border-color: rgb(187, 189, 192) rgb(178, 6, 16);
   border-style: outset;
   border-width: 3px;
   font-family: FixedsysExcelsior301Regular;
@@ -299,7 +353,7 @@ p {
 }
 
 .cc-1618:active {
-  border-color: rgb(235, 124, 126) rgb(178, 6, 16);
+  border-color: rgb(187, 189, 192) rgb(178, 6, 16);
   border-style: inset;
   border-width: 3px;
 }
